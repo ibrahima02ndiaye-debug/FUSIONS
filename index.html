@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBRA Services Fusion - Dashboard</title>
+    <style>
+        :root {
+            --primary: #4285F4;
+            --bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --text: #e0e0e0;
+            --accent: #00ff41;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: var(--primary);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .subtitle {
+            margin-bottom: 40px;
+            font-style: italic;
+            color: #888;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        .card p {
+            line-height: 1.6;
+            font-size: 0.9em;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #333;
+            border-radius: 4px;
+            font-size: 0.75em;
+            margin-top: 10px;
+            color: var(--accent);
+        }
+        .links {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+        }
+        .links a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>IBRA Services Fusion</h1>
+    <p class="subtitle">Unified AI Automotive Ecosystem</p>
+
+    <div class="grid">
+        <a href="projects/heptafusion-open/ibra_os/dashboard/HUD.html" class="card">
+            <h2>Ibra-OS HUD</h2>
+            <p>Access the real-time Cyber Terminal for swarm management and model merging control.</p>
+            <div class="badge">SYSTEM CORE</div>
+        </a>
+
+        <a href="docs/ibraservices.md" class="card">
+            <h2>Management Portal</h2>
+            <p>Full-stack garage management with AI diagnostics, loyalty programs, and automated billing.</p>
+            <div class="badge">BUSINESS</div>
+        </a>
+
+        <a href="docs/ibraservices-iapilot.md" class="card">
+            <h2>GaragePilot AI</h2>
+            <p>Next-gen predictive maintenance and diagnostic tool with dedicated customer portals.</p>
+            <div class="badge">AI DIAGNOSTICS</div>
+        </a>
+
+        <a href="docs/ibrapro-facture.md" class="card">
+            <h2>Pro Facture</h2>
+            <p>Streamlined invoicing system for automotive services and part sales.</p>
+            <div class="badge">FINANCE</div>
+        </a>
+    </div>
+
+    <div class="links">
+        <a href="README.md">Main Documentation</a>
+        <a href="docs/">Browse All Docs</a>
+        <a href="projects/">Project Files</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "Ibra-OS Garage HUD",
+  "short_name": "Ibra-OS",
+  "description": "Mobile Dashboard for Ibra Services Inc. Garage Automation",
+  "start_url": "HUD.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#00ff41",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/color/192/000000/garage.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://img.icons8.com/color/512/000000/garage.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

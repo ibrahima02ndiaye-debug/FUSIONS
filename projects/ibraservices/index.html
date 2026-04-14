@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="description" content="IBRA Services - Gestion intelligente de garage avec IA. Mécanique générale, Taxi, Livraison et Climatisation à Trois-Rivières." />
+    <meta name="keywords" content="garage, mécanique, taxi, livraison, climatisation, trois-rivières, québec, AI" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="IBRA Services" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="IBRA Services - Garage Intelligent avec IA" />
+    <meta property="og:description" content="Mécanique générale, Taxi, Livraison et Climatisation avec technologie AI" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:url" content="https://servicesibra.ca" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IBRA Services" />
+    <meta name="twitter:description" content="Garage management avec IA - Trois-Rivières, QC" />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <title>IBRA Services - Garage Intelligent AI</title>
+
+    <!-- PWA Install Script -->
+    <script>
+      // Register service worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => console.log('SW registered'))
+            .catch(err => console.log('SW registration failed'));
+        });
+      }
+
+      // PWA Install Banner
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Show install button after 30 seconds
+        setTimeout(() => {
+          if (deferredPrompt && !localStorage.getItem('pwa-dismissed')) {
+            const shouldPrompt = confirm('Installer IBRA Services sur votre écran d\'accueil pour un accès rapide?');
+            if (shouldPrompt) {
+              deferredPrompt.prompt();
+              deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                  console.log('PWA installed');
+                } else {
+                  localStorage.setItem('pwa-dismissed', 'true');
+                }
+                deferredPrompt = null;
+              });
+            } else {
+              localStorage.setItem('pwa-dismissed', 'true');
+            }
+          }
+        }, 30000);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+
+    <!-- Offline Page Fallback -->
+    <noscript>
+      <div style="text-align: center; padding: 50px; font-family: Arial;">
+        <h1>JavaScript Requis</h1>
+        <p>Veuillez activer JavaScript pour utiliser IBRA Services.</p>
+      </div>
+    </noscript>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+base_model: "google/gemma-4-31B-it"
+merge_models:
+  - model: "google/gemma-4-E4B"
+    weight: 0.3
+method: "weighted_average"
+output_path: "./fused-gemma4"

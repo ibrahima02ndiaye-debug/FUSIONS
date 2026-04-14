@@ -1,0 +1,642 @@
+{
+  "entities": {
+    "Customer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Customer",
+      "type": "object",
+      "description": "Represents a customer who uses the garage services.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the customer entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of the customer."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the customer."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the customer.",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number of the customer."
+        },
+        "address": {
+          "type": "string",
+          "description": "Address of the customer."
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phone"
+      ]
+    },
+    "Vehicle": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Vehicle",
+      "type": "object",
+      "description": "Represents a vehicle owned by a customer.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the vehicle entity."
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Reference to Customer. (Relationship: Customer 1:N Vehicle)"
+        },
+        "make": {
+          "type": "string",
+          "description": "Make of the vehicle (e.g., Toyota)."
+        },
+        "model": {
+          "type": "string",
+          "description": "Model of the vehicle (e.g., Camry)."
+        },
+        "year": {
+          "type": "number",
+          "description": "Year of the vehicle."
+        },
+        "vin": {
+          "type": "string",
+          "description": "Vehicle Identification Number."
+        },
+        "licensePlate": {
+          "type": "string",
+          "description": "License plate number of the vehicle."
+        },
+        "lastService": {
+          "type": "string",
+          "description": "Date of the last service."
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status of the vehicle.",
+          "enum": [
+            "In Service",
+            "Needs Attention",
+            "Ready",
+            "Maintenance Due"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "description": "Name of the vehicle owner."
+        }
+      },
+      "required": [
+        "id",
+        "customerId",
+        "make",
+        "model",
+        "year",
+        "vin",
+        "owner",
+        "status",
+        "lastService"
+      ]
+    },
+    "Appointment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Appointment",
+      "type": "object",
+      "description": "Represents a scheduled appointment for a vehicle.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the appointment entity."
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Reference to Customer. (Relationship: Customer 1:N Appointment)"
+        },
+        "vehicleId": {
+          "type": "string",
+          "description": "Reference to Vehicle. (Relationship: Vehicle 1:N Appointment)"
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Start time of the appointment.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "End time of the appointment.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the appointment."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the appointment (e.g., Scheduled, In Progress, QC, Done).",
+          "enum": [
+            "Scheduled",
+            "In Progress",
+            "QC",
+            "Done"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "customerId",
+        "vehicleId",
+        "startTime",
+        "endTime",
+        "description",
+        "status"
+      ]
+    },
+    "Admin": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Admin",
+      "type": "object",
+      "description": "Represents an admin member of the garage.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the admin entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of the admin member."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the admin member."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the admin member.",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number of the admin member."
+        },
+        "role": {
+          "type": "string",
+          "description": "Role of the admin member (e.g., Mechanic, Service Advisor)."
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "role"
+      ]
+    },
+    "Part": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Part",
+      "type": "object",
+      "description": "Represents a part in the inventory.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the part entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the part."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the part."
+        },
+        "partNumber": {
+          "type": "string",
+          "description": "Part number."
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of the part in stock."
+        },
+        "cost": {
+          "type": "number",
+          "description": "Cost of the part."
+        },
+        "lowStockThreshold": {
+            "type": "number",
+            "description": "The threshold at which stock is considered low."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "partNumber",
+        "quantity",
+        "cost",
+        "lowStockThreshold"
+      ]
+    },
+    "Service": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Service",
+      "type": "object",
+      "description": "Represents a service offered by the garage.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the service entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the service."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the service."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the service."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "price"
+      ]
+    },
+    "Invoice": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Invoice",
+      "type": "object",
+      "description": "Represents an invoice for services rendered.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the invoice entity."
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Reference to Customer. (Relationship: Customer 1:N Invoice)"
+        },
+        "appointmentId": {
+          "type": "string",
+          "description": "Reference to Appointment. (Relationship: Appointment 1:1 Invoice)"
+        },
+        "invoiceDate": {
+          "type": "string",
+          "description": "Date the invoice was issued.",
+          "format": "date-time"
+        },
+        "dueDate": {
+          "type": "string",
+          "description": "Date the invoice is due.",
+          "format": "date-time"
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "Total amount of the invoice."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the invoice (e.g., Issued, Paid, Overdue)."
+        }
+      },
+      "required": [
+        "id",
+        "customerId",
+        "appointmentId",
+        "invoiceDate",
+        "dueDate",
+        "totalAmount",
+        "status"
+      ]
+    },
+    "InvoiceItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "InvoiceItem",
+      "type": "object",
+      "description": "Represents an item on an invoice, either a part or a service.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the invoice item entity."
+        },
+        "invoiceId": {
+          "type": "string",
+          "description": "Reference to Invoice. (Relationship: Invoice 1:N InvoiceItem)"
+        },
+        "partId": {
+          "type": "string",
+          "description": "Reference to Part. (Relationship: Part 1:N InvoiceItem).  Null if it is a service."
+        },
+        "serviceId": {
+          "type": "string",
+          "description": "Reference to Service. (Relationship: Service 1:N InvoiceItem). Null if it is a part."
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of the part or service."
+        },
+        "unitPrice": {
+          "type": "number",
+          "description": "Price per unit of the part or service."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the invoice item"
+        }
+      },
+      "required": [
+        "id",
+        "invoiceId",
+        "quantity",
+        "unitPrice",
+        "description"
+      ]
+    },
+    "DiagnosticReport": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DiagnosticReport",
+      "type": "object",
+      "description": "Represents a diagnostic report generated by the AI.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the diagnostic report entity."
+        },
+        "vehicleId": {
+          "type": "string",
+          "description": "Reference to Vehicle. (Relationship: Vehicle 1:N DiagnosticReport)"
+        },
+        "reportDate": {
+          "type": "string",
+          "description": "Date the report was generated.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the diagnostic report."
+        },
+        "results": {
+          "type": "string",
+          "description": "The AI generated diagnostic results"
+        }
+      },
+      "required": [
+        "id",
+        "vehicleId",
+        "reportDate",
+        "description",
+        "results"
+      ]
+    },
+    "ChatMessage": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ChatMessage",
+      "type": "object",
+      "description": "Represents a chat message between the garage and a customer.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the chat message."
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Reference to the Customer. (Relationship: Customer 1:N ChatMessage)"
+        },
+        "adminId": {
+          "type": "string",
+          "description": "Reference to the Admin member. (Relationship: Admin 1:N ChatMessage). Can be null if sent by customer"
+        },
+        "message": {
+          "type": "string",
+          "description": "The content of the message."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "The timestamp of the message.",
+          "format": "date-time"
+        },
+        "senderType": {
+          "type": "string",
+          "description": "The type of sender (e.g., 'customer', 'admin')."
+        }
+      },
+      "required": [
+        "id",
+        "message",
+        "timestamp",
+        "senderType"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/customers/{customerId}",
+        "definition": {
+          "entityName": "Customer",
+          "schema": {
+            "$ref": "#/backend/entities/Customer"
+          },
+          "description": "Stores customer information.  Allows admins to read customer data. Customers can only read their own data.",
+          "params": [
+            {
+              "name": "customerId",
+              "description": "The unique identifier for the customer."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/vehicles/{vehicleId}",
+        "definition": {
+          "entityName": "Vehicle",
+          "schema": {
+            "$ref": "#/backend/entities/Vehicle"
+          },
+          "description": "Stores all vehicle information. Only admins can create, update, or delete vehicles. Customers can view vehicles associated with their customerId.",
+          "params": [
+            {
+              "name": "vehicleId",
+              "description": "The unique identifier for the vehicle."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/appointments/{appointmentId}",
+        "definition": {
+          "entityName": "Appointment",
+          "schema": {
+            "$ref": "#/backend/entities/Appointment"
+          },
+          "description": "Stores appointment information for each customer. `customerId` is denormalized to allow direct access and authorization. Appointments can only be created by admins",
+          "params": [
+            {
+              "name": "appointmentId",
+              "description": "The unique identifier for the appointment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/admins/{adminId}",
+        "definition": {
+          "entityName": "Admin",
+          "schema": {
+            "$ref": "#/backend/entities/Admin"
+          },
+          "description": "Stores admin member information. Only admins can access admin documents",
+          "params": [
+            {
+              "name": "adminId",
+              "description": "The unique identifier for the admin member."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/parts/{partId}",
+        "definition": {
+          "entityName": "Part",
+          "schema": {
+            "$ref": "#/backend/entities/Part"
+          },
+          "description": "Stores parts inventory. Only admins can access part documents.",
+          "params": [
+            {
+              "name": "partId",
+              "description": "The unique identifier for the part."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/services/{serviceId}",
+        "definition": {
+          "entityName": "Service",
+          "schema": {
+            "$ref": "#/backend/entities/Service"
+          },
+          "description": "Stores service information offered by the garage. Only admins can access services.",
+          "params": [
+            {
+              "name": "serviceId",
+              "description": "The unique identifier for the service."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/invoices/{invoiceId}",
+        "definition": {
+          "entityName": "Invoice",
+          "schema": {
+            "$ref": "#/backend/entities/Invoice"
+          },
+          "description": "Stores invoices for each customer. `customerId` is denormalized to allow direct access and authorization. Invoices can only be created by admins",
+          "params": [
+            {
+              "name": "invoiceId",
+              "description": "The unique identifier for the invoice."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/invoices/{invoiceId}/invoiceItems/{invoiceItemId}",
+        "definition": {
+          "entityName": "InvoiceItem",
+          "schema": {
+            "$ref": "#/backend/entities/InvoiceItem"
+          },
+          "description": "Stores invoice items for each invoice. `customerId` and `invoiceId` are denormalized to allow direct access and authorization. InvoiceItems can only be created by admins",
+          "params": [
+            {
+              "name": "invoiceId",
+              "description": "The unique identifier for the invoice."
+            },
+            {
+              "name": "invoiceItemId",
+              "description": "The unique identifier for the invoice item."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/vehicles/{vehicleId}/diagnosticReports/{diagnosticReportId}",
+        "definition": {
+          "entityName": "DiagnosticReport",
+          "schema": {
+            "$ref": "#/backend/entities/DiagnosticReport"
+          },
+          "description": "Stores diagnostic reports for each vehicle. Only admins can access DiagnosticReports.",
+          "params": [
+            {
+              "name": "vehicleId",
+              "description": "The unique identifier for the vehicle."
+            },
+            {
+              "name": "diagnosticReportId",
+              "description": "The unique identifier for the diagnostic report."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/customers/{customerId}/chatMessages/{chatMessageId}",
+        "definition": {
+          "entityName": "ChatMessage",
+          "schema": {
+            "$ref": "#/backend/entities/ChatMessage"
+          },
+          "description": "Stores chat messages between the garage and a customer.  `customerId` is denormalized to allow direct access and authorization.",
+          "params": [
+            {
+              "name": "customerId",
+              "description": "The unique identifier for the customer."
+            },
+            {
+              "name": "chatMessageId",
+              "description": "The unique identifier for the chat message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admins/{adminId}",
+        "definition": {
+          "entityName": "Admin",
+          "schema": {
+            "$ref": "#/backend/entities/Admin"
+          },
+          "description": "Documents in this collection signify that a user is an admin member. Existence of the document grants admin privileges.",
+          "params": [
+            {
+              "name": "adminId",
+              "description": "The unique identifier for the admin member."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to mirror the relationships between entities in the GaragePilot application, while prioritizing security, scalability, and debuggability. It leverages path-based ownership and denormalization to ensure authorization independence, enabling secure and atomic operations. The structure separates data with different access requirements into distinct collections to maintain a homogeneous security posture.  \n\nAuthorization Independence is achieved through denormalization. For instance, `customerId` is present on `Vehicle`, `Appointment`, and `Invoice` collections, enabling rules to validate ownership without `get()` calls. Admin roles are managed via a dedicated collection (`/roles_admins/{uid}`) which facilitates simple existence checks in rules.\n\nThe QAPs are addressed as follows:\n*   **List operations:** Segregation allows for secure list operations. For example, listing all vehicles owned by a customer is achieved via the `/customers/{customerId}/vehicles` collection.\n*   **Private data:** Path-based ownership is used for user-specific data like vehicles and appointments ensuring only the customer and authorized admins can access it.\n*   **Collaborative data:** Not applicable as there is no collaborative data in the models, though admin access could be modelled using the Membership Map pattern if required in future iterations.\n\nThis structure promotes clarity, predictability, and maintainability, aligning with the core design principles."
+  }
+}

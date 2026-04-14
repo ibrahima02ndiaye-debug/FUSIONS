@@ -1,0 +1,8 @@
+base_model: "meta-llama/Llama-2-7b-hf"
+merge_models:
+  - model: "mistralai/Mistral-7B-v0.1"
+    weight: 0.5
+  - model: "google/gemma-7b"
+    weight: 0.5
+method: "weighted_average"
+output_path: "./fused-model"

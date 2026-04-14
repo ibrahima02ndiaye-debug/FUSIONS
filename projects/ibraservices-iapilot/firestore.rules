@@ -1,0 +1,290 @@
+/**
+ * This ruleset enforces a two-tiered access model for a garage management system,
+ * distinguishing between "Admin" and "Customer" users. The core philosophy is to
+ * grant admins broad access to manage business operations while restricting customers
+ * to viewing and interacting with only their own data.
+ *
+ * Core Philosophy:
+ * - Admin members, identified by the existence of a document in the `/roles_admins`
+ *   collection, have administrative privileges over customers, vehicles,
+ *   appointments, invoices, and inventory.
+ * - Customers are treated as authenticated end-users who have strict ownership
+ *   over their personal information and related documents (vehicles, appointments, etc.).
+ * - The default security posture is to deny all access. Permissions are granted
+ *   explicitly on a per-collection basis.
+ *
+ * Data Structure:
+ * - Customer-specific data (vehicles, appointments, invoices, chats) is nested
+ *   hierarchically under the `/customers/{customerId}` path. This structure
+ *   naturally lends itself to path-based ownership rules.
+ * - Global, non-customer-specific data like inventory (`/parts`) and offered
+ *   services (`/services`) are stored in top-level collections, accessible only to admins.
+ * - A dedicated `/roles_admins/{adminId}` collection serves as a fast, efficient
+ *   lookup table to determine if a user has admin privileges.
+ *
+ * Key Security Decisions:
+ * - Admin Role Management: A user is considered "admin" if a document with their
+ *   UID exists in `/roles_admins`. This is checked using a single `exists()` call,
+ *   which is highly performant. Client-side modification of this collection is disabled.
+ * - Denormalization for Authorization: To ensure fast and secure authorization checks,
+ *   critical IDs (like `customerId`) are denormalized onto child documents
+ *   (e.g., Vehicles, Invoices). This avoids slow and costly `get()` calls in rules.
+ * - No User Enumeration: Listing users from the `/customers` or `/admins` collections
+ *   is prohibited for non-admin members to protect user privacy and prevent data scraping.
+ * - Immutable History: Chat messages are immutable; they cannot be updated or deleted
+ *   once created, preserving a clear communication record.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper Functions for Reusable Logic
+
+    /**
+     * Checks if the current user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the currently authenticated user is an admin member.
+     * This is determined by the existence of their UID in the /roles_admins collection.
+     * This is the primary mechanism for role-based access control.
+     */
+    function isAdmin() {
+      return exists(/databases/$(database)/documents/roles_admins/$(request.auth.uid));
+    }
+
+    /**
+     * Checks if the document's owner matches the requesting user's UID.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * Validates that the document being operated on already exists.
+     * CRITICAL for all update and delete operations to prevent unintended side effects.
+     */
+    function isExistingDoc() {
+      return resource != null;
+    }
+
+    /**
+     * Validates the creation of a chat message, ensuring the sender is correctly
+     * identified as either the customer who owns the thread or an authorized admin member.
+     */
+    function canCreateChatMessage(customerId) {
+      let isCustomerMessage = request.resource.data.senderType == 'customer' && isOwner(customerId) && request.resource.data.customerId == customerId;
+      let isAdminMessage = request.resource.data.senderType == 'admin' && isAdmin() && request.resource.data.adminId == request.auth.uid && request.resource.data.customerId == customerId;
+      return isCustomerMessage || isAdminMessage;
+    }
+
+    /**
+     * @description Controls access to admin role documents. These documents act as flags
+     *              to grant admin privileges across the application.
+     * @path /roles_admins/{adminId}
+     * @allow An admin member (auth.uid=adminId) reading their own role document (get).
+     * @deny An anonymous user trying to list all admin roles.
+     * @principle Implements Role-Based Access Control (RBAC) via a lookup collection,
+     *            while preventing any client-side modification of roles.
+     */
+    match /roles_admins/{adminId} {
+      allow get: if isAdmin() && isOwner(adminId);
+      allow list: if false;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Manages access to admin profile information.
+     * @path /admins/{adminId}
+     * @allow An admin member creating their own profile (create). Any admin member can view profiles (get, list).
+     * @deny A non-admin user trying to read or write any admin profile.
+     * @principle Combines ownership for self-management with role-based access for team visibility.
+     */
+    match /admins/{adminId} {
+      allow get: if isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(adminId) && request.resource.data.id == adminId;
+      allow update: if isOwner(adminId) && isExistingDoc() && request.resource.data.id == resource.data.id;
+      allow delete: if isOwner(adminId) && isExistingDoc();
+    }
+
+    /**
+     * @description Manages vehicles in a global collection for admin access.
+     * @path /vehicles/{vehicleId}
+     * @allow Admins can perform all CRUD operations.
+     * @deny Customers cannot directly access this top-level collection.
+     * @principle Centralized vehicle management for admin efficiency.
+     */
+    match /vehicles/{vehicleId} {
+      allow read, write: if isAdmin();
+    }
+
+    /**
+     * @description Manages appointments in a global collection for admin access.
+     * @path /appointments/{appointmentId}
+     * @allow Admins can perform all CRUD operations.
+     * @deny Customers cannot directly access this top-level collection.
+     * @principle Centralized appointment management for admin efficiency.
+     */
+    match /appointments/{appointmentId} {
+        allow read, write: if isAdmin();
+    }
+
+    /**
+     * @description Manages invoices in a global collection for admin access.
+     * @path /invoices/{invoiceId}
+     * @allow Admins can perform all CRUD operations.
+     * @deny Customers cannot directly access this top-level collection.
+     * @principle Centralized invoice management for admin efficiency.
+     */
+    match /invoices/{invoiceId} {
+        allow read, write: if isAdmin();
+    }
+
+
+    /**
+     * @description Secures customer profile documents.
+     * @path /customers/{customerId}
+     * @allow An admin member creating a new customer profile (create). The customer reading their own profile (get).
+     * @deny A customer trying to list all other customers.
+     * @principle Enforces strict data ownership for customers, while granting full
+     *            management capabilities to admin members.
+     */
+    match /customers/{customerId} {
+      allow get: if isOwner(customerId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isAdmin() && request.resource.data.id == customerId;
+      allow update: if (isOwner(customerId) || isAdmin()) && isExistingDoc() && request.resource.data.id == resource.data.id;
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Manages vehicles associated with a specific customer.
+     * @path /customers/{customerId}/vehicles/{vehicleId}
+     * @allow The customer (auth.uid=customerId) viewing their list of vehicles (list). An admin member adding a new vehicle (create).
+     * @deny A customer trying to add or modify their own vehicle records.
+     * @principle Restricts access to a user's own data tree, with write permissions
+     *            reserved for authorized admins. Validates relational integrity on create.
+     */
+    match /customers/{customerId}/vehicles/{vehicleId} {
+      allow get: if isOwner(customerId) || isAdmin();
+      allow list: if isOwner(customerId) || isAdmin();
+      allow create: if isAdmin() && request.resource.data.customerId == customerId;
+      allow update: if isAdmin() && isExistingDoc() && request.resource.data.customerId == resource.data.customerId;
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Manages appointments associated with a specific customer.
+     * @path /customers/{customerId}/appointments/{appointmentId}
+     * @allow The customer (auth.uid=customerId) viewing their appointment (get). An admin member updating an appointment (update).
+     * @deny A customer trying to create their own appointment directly.
+     * @principle Restricts access to a user's own data tree, with write permissions
+     *            reserved for authorized admins. Validates relational integrity on create.
+     */
+    match /customers/{customerId}/appointments/{appointmentId} {
+      allow get: if isOwner(customerId) || isAdmin();
+      allow list: if isOwner(customerId) || isAdmin();
+      allow create: if isAdmin() && request.resource.data.customerId == customerId;
+      allow update: if isAdmin() && isExistingDoc() && request.resource.data.customerId == resource.data.customerId;
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Manages invoices associated with a specific customer.
+     * @path /customers/{customerId}/invoices/{invoiceId}
+     * @allow The customer (auth.uid=customerId) reading their invoice (get). An admin member creating an invoice (create).
+     * @deny A customer trying to modify or delete their invoice.
+     * @principle Restricts access to a user's own data tree, with write permissions
+     *            reserved for authorized admins.
+     */
+    match /customers/{customerId}/invoices/{invoiceId} {
+      allow get: if isOwner(customerId) || isAdmin();
+      allow list: if isOwner(customerId) || isAdmin();
+      allow create: if isAdmin() && request.resource.data.customerId == customerId;
+      allow update: if isAdmin() && isExistingDoc() && request.resource.data.customerId == resource.data.customerId;
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Manages line items for a specific invoice. Access inherits from the parent invoice.
+     * @path /customers/{customerId}/invoices/{invoiceId}/invoiceItems/{invoiceItemId}
+     * @allow The customer (auth.uid=customerId) viewing items on their invoice (list). An admin member adding an item (create).
+     * @deny A customer attempting to add items to their own invoice.
+     * @principle Enforces hierarchical security; access to subcollection items is
+     *            governed by the permissions on the parent document's path.
+     */
+    match /customers/{customerId}/invoices/{invoiceId}/invoiceItems/{invoiceItemId} {
+      allow get: if isOwner(customerId) || isAdmin();
+      allow list: if isOwner(customerId) || isAdmin();
+      allow create: if isAdmin() && request.resource.data.invoiceId == invoiceId;
+      allow update: if isAdmin() && isExistingDoc() && request.resource.data.invoiceId == resource.data.invoiceId;
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Manages chat messages between a customer and the garage admin.
+     * @path /customers/{customerId}/chatMessages/{chatMessageId}
+     * @allow The customer (auth.uid=customerId) sending a message (create). An admin member sending a message (create).
+     * @deny Any user trying to update or delete an existing message.
+     * @principle Implements a shared access model for a specific data tree. Enforces
+     *            message immutability to maintain a reliable audit trail.
+     */
+    match /customers/{customerId}/chatMessages/{chatMessageId} {
+      allow get: if isOwner(customerId) || isAdmin();
+      allow list: if isOwner(customerId) || isAdmin();
+      allow create: if canCreateChatMessage(customerId);
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Secures the parts inventory collection.
+     * @path /parts/{partId}
+     * @allow An admin member reading the parts list (list). An admin member updating stock quantity (update).
+     * @deny Any non-admin user trying to access inventory data.
+     * @principle Enforces strict role-based access for internal business data.
+     */
+    match /parts/{partId} {
+      allow read, write: if isAdmin();
+    }
+
+    /**
+     * @description Secures the services collection.
+     * @path /services/{serviceId}
+     * @allow An admin member viewing the list of available services (list).
+     * @deny A customer trying to view or modify the service catalog.
+     * @principle Enforces strict role-based access for internal business data.
+     */
+    match /services/{serviceId} {
+      allow get: if isAdmin();
+      allow list: if isAdmin();
+      allow create: if isAdmin();
+      allow update: if isAdmin() && isExistingDoc();
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Secures AI-generated diagnostic reports for vehicles.
+     * @path /vehicles/{vehicleId}/diagnosticReports/{diagnosticReportId}
+     * @allow An admin member creating a new report (create). A customer viewing a report for their own vehicle (get).
+     * @deny A customer attempting to list all reports in the system.
+     * @principle This rule relies on denormalization. For a customer to access their report,
+     *            the `DiagnosticReport` document MUST contain a `customerId` field.
+     */
+    match /vehicles/{vehicleId}/diagnosticReports/{diagnosticReportId} {
+      // CRITICAL: This rule assumes the 'DiagnosticReport' document contains a denormalized 'customerId' field.
+      // This is necessary to securely associate the report with its owner without complex lookups.
+      allow get: if isAdmin() || (isSignedIn() && isOwner(resource.data.customerId));
+      allow list: if isAdmin();
+      allow create: if isAdmin() && request.resource.data.vehicleId == vehicleId;
+      allow update: if isAdmin() && isExistingDoc() && request.resource.data.vehicleId == resource.data.vehicleId;
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+  }
+}

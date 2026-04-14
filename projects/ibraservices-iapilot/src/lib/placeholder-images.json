@@ -1,0 +1,58 @@
+{
+  "placeholderImages": [
+    {
+      "id": "avatar-1",
+      "description": "User avatar 1",
+      "imageUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBmYWNlfGVufDB8fHx8MTc2NDg1MjY5MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person face"
+    },
+    {
+      "id": "avatar-2",
+      "description": "User avatar 2",
+      "imageUrl": "https://images.unsplash.com/photo-1725028748781-7adb1df9a943?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBmYWNlfGVufDB8fHx8MTc2NDg1MjY5MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person face"
+    },
+    {
+      "id": "avatar-3",
+      "description": "User avatar 3",
+      "imageUrl": "https://images.unsplash.com/photo-1693039537350-3bba6975add7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwZXJzb24lMjBmYWNlfGVufDB8fHx8MTc2NDg1MjY5MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person face"
+    },
+    {
+      "id": "avatar-4",
+      "description": "User avatar 4",
+      "imageUrl": "https://images.unsplash.com/photo-1530268729831-4b0b9e170218?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGVyc29uJTIwZmFjZXxlbnwwfHx8fDE3NjQ4NTI2OTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person face"
+    },
+    {
+      "id": "vehicle-1",
+      "description": "Modern blue sedan",
+      "imageUrl": "https://images.unsplash.com/photo-1589750602846-60028879da9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxibHVlJTIwY2FyfGVufDB8fHx8MTc2NDkwMzk5Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "blue car"
+    },
+    {
+      "id": "vehicle-2",
+      "description": "Red sports car",
+      "imageUrl": "https://images.unsplash.com/photo-1580446623001-3abf670c5c55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZWQlMjBjYXJ8ZW58MHx8fHwxNzY0ODg4MTM2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "red car"
+    },
+    {
+      "id": "vehicle-3",
+      "description": "Silver SUV",
+      "imageUrl": "https://images.unsplash.com/photo-1705769944019-a490299946e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzaWx2ZXIlMjBzdXZ8ZW58MHx8fHwxNzY0OTAzOTk2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "silver suv"
+    },
+    {
+      "id": "vehicle-4",
+      "description": "Black truck",
+      "imageUrl": "https://images.unsplash.com/photo-1758224388809-35bb3c3f89b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxibGFjayUyMHRydWNrfGVufDB8fHx8MTc2NDgwNTcxOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "black truck"
+    },
+    {
+      "id": "diagnostic-image",
+      "description": "Engine with smoke",
+      "imageUrl": "https://images.unsplash.com/photo-1708063785769-43da3123684d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjYXIlMjBlbmdpbmV8ZW58MHx8fHwxNzY0ODY5MjMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "car engine"
+    }
+  ]
+}

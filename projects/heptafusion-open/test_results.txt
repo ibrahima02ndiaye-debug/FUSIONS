@@ -1,0 +1,30 @@
+...E
+======================================================================
+ERROR: test_merge_logic (unittest.loader._FailedTest.test_merge_logic)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_merge_logic
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/app/projects/heptafusion-open/tests/test_merge_logic.py", line 1, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.020s
+
+FAILED (errors=1)
+Database initialized at tests/test_garage_memory.db
+[Secretary] (HERMES) Analyse de la requête: Peux-tu regarder cette image de frein?
+[Secretary] (HERMES) Analyse de la requête: Quels sont les rendez-vous de demain?
+[Secretary] Mode switched to: CLAW
+[Secretary] (CLAW) Analyse de la requête: Regarde mes freins et prends un rdv.
+[Secretary] [THOUGHT] Analyzing user intent and context...
+[Secretary] [THOUGHT] Keyword match for intent: vision
+[Secretary] [THOUGHT] Keyword match for intent: memory
+[Secretary] Mode switched to: HERMES
+[Secretary] (HERMES) Analyse de la requête: Regarde mes freins et prends un rdv.
