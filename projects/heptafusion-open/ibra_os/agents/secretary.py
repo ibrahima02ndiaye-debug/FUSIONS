@@ -26,7 +26,9 @@ class SecretaryAgent(BaseAgent):
             "inventory": ["stock", "pièce", "part", "filtre", "filter", "pneu", "tire"],
             "history": ["historique", "passé", "ancien", "history", "previous", "record"],
             "humanoid": ["robot", "humanoid", "manipuler", "bras", "reparer", "robotics", "arm"],
-            "fleet": ["flotte", "gps", "localisation", "position", "unités", "fleet", "tracking"]
+            "fleet": ["flotte", "gps", "localisation", "position", "unités", "fleet", "tracking"],
+            "merger": ["fusion", "brain", "merge", "intelligence", "merge_models", "slerp"],
+            "twin": ["simulation", "twin", "jumelage", "jumeau", "predictive", "maintenance"]
         }
 
     def set_mode(self, mode: str):
@@ -85,7 +87,9 @@ class SecretaryAgent(BaseAgent):
             "inventory": "check_stock",
             "history": "retrieve_history",
             "humanoid": "perform_manipulation",
-            "fleet": "get_all_locations"
+            "fleet": "get_all_locations",
+            "merger": "initiate_dynamic_merge",
+            "twin": "simulate_repair"
         }
         return actions.get(intent, "process")
 
