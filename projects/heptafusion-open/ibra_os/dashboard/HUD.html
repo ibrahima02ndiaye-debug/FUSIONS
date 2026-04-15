@@ -136,6 +136,8 @@
         <div class="mobile-actions">
             <button id="btn-camera">📸 VISION</button>
             <button id="btn-mic">🎤 VOCAL</button>
+            <button id="btn-manip">🦾 ROBOT</button>
+            <button id="btn-gps">🛰️ GPS</button>
             <button id="btn-diag">⚙️ DIAG</button>
         </div>
         <div class="lang-switch">
@@ -155,6 +157,7 @@
                 <li>[SECRETARY] > <span class="status-online pulse">CORE_ONLINE</span></li>
                 <li>[VISION]    > <span class="status-online">MODULE_READY</span></li>
                 <li>[PHYSICS]   > <span class="status-online">SENSOR_ACTIVE</span></li>
+                <li>[HUMANOID]  > <span class="status-online">ACTUATORS_LIVE</span></li>
                 <li>[MEMORY]    > <span class="status-online">SYNC_OK</span></li>
             </ul>
             <div id="diag-bar-container">
@@ -163,9 +166,18 @@
         </div>
 
         <div class="panel">
-            <h2 id="h-appoint">Active Queue</h2>
-            <div id="appointments">
-                <p>> No active sessions.</p>
+            <h2 id="h-fleet">Fleet & Localization</h2>
+            <div id="fleet-status">
+                <ul style="list-style: none; padding: 0; font-size: 0.85em;">
+                    <li>[ROBOT-01] > 45.50N, 73.56W [OK]</li>
+                    <li>[ROBOT-02] > 45.51N, 73.55W [IDLE]</li>
+                    <li>[DRONE-A]  > 45.53N, 73.60W [LOW_BAT]</li>
+                </ul>
+                <div style="border: 1px solid var(--neon-purple); height: 60px; margin-top: 10px; position: relative; background: rgba(188, 19, 254, 0.1);">
+                     <div style="position: absolute; top: 20%; left: 30%; width: 5px; height: 5px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 5px var(--neon-green);"></div>
+                     <div style="position: absolute; top: 50%; left: 60%; width: 5px; height: 5px; background: var(--neon-purple); border-radius: 50%; box-shadow: 0 0 5px var(--neon-purple);"></div>
+                     <span style="font-size: 0.6em; position: absolute; bottom: 2px; right: 5px;">LIVE_GPS_MAP</span>
+                </div>
             </div>
         </div>
 
@@ -257,6 +269,20 @@
 
         document.getElementById('btn-mic').addEventListener('click', () => {
             logToTerminal("SECRETARY", "Audio stream active. Waiting for voice commands.");
+        });
+
+        document.getElementById('btn-manip').addEventListener('click', () => {
+            logToTerminal("HUMANOID", "Activating robotic arm... Calibrating torque sensors.");
+            setTimeout(() => {
+                logToTerminal("HUMANOID", "Manipulation module ready. Manual override enabled.");
+            }, 1500);
+        });
+
+        document.getElementById('btn-gps').addEventListener('click', () => {
+            logToTerminal("FLEET", "Refreshing GPS coordinates... Syncing with Galileo/GPS constellation.");
+            setTimeout(() => {
+                logToTerminal("FLEET", "Localization data updated. 3 active units tracked.");
+            }, 1000);
         });
 
         document.getElementById('btn-diag').addEventListener('click', () => {

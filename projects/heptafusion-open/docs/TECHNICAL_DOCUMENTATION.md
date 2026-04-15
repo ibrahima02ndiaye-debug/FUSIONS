@@ -18,6 +18,8 @@ Located in `ibra_os/agents/`:
     - **CLAW Mode**: Autonomous reasoning with multi-step plan generation.
 - **VisionAgent**: Utilizes `Qwen2-VL` for visual diagnostic tasks.
 - **PhysicsAgent**: Processes audio/vibration data for mechanical diagnostics.
+- **HumanoidAgent**: Manages robotic embodiment, kinematic control, and physical manipulation tasks within the garage. Supports real-time sensor telemetry (Lidar, IMU).
+- **FleetAgent**: Oversees GPS tracking and localization for multiple robotic units, providing real-time status and health diagnostics for the entire swarm.
 
 ### 2.3 Persistence Layer
 Located in `ibra_os/database/`:

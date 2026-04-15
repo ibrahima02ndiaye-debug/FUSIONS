@@ -24,7 +24,9 @@ class SecretaryAgent(BaseAgent):
             "memory": ["rendez-vous", "client", "rdv", "horaire", "liste", "appointment", "schedule"],
             "physics": ["moteur", "vibration", "son", "bruit", "engine", "noise"],
             "inventory": ["stock", "pièce", "part", "filtre", "filter", "pneu", "tire"],
-            "history": ["historique", "passé", "ancien", "history", "previous", "record"]
+            "history": ["historique", "passé", "ancien", "history", "previous", "record"],
+            "humanoid": ["robot", "humanoid", "manipuler", "bras", "reparer", "robotics", "arm"],
+            "fleet": ["flotte", "gps", "localisation", "position", "unités", "fleet", "tracking"]
         }
 
     def set_mode(self, mode: str):
@@ -81,7 +83,9 @@ class SecretaryAgent(BaseAgent):
             "memory": "query_database",
             "physics": "analyze_physics",
             "inventory": "check_stock",
-            "history": "retrieve_history"
+            "history": "retrieve_history",
+            "humanoid": "perform_manipulation",
+            "fleet": "get_all_locations"
         }
         return actions.get(intent, "process")
 

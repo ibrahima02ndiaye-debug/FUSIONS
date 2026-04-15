@@ -51,6 +51,12 @@ class TestIbraOS(unittest.TestCase):
         # Hermes only picks one (the first it finds)
         self.assertIn(res['target'], ["Vision", "Memory"])
 
+    def test_humanoid_dispatch(self):
+        secretary = SecretaryAgent()
+        res = secretary.process("Le robot doit réparer l'aile gauche.")
+        self.assertEqual(res['target'], "Humanoid")
+        self.assertEqual(res['action'], "perform_manipulation")
+
     def test_database_schema(self):
         self.assertTrue(os.path.exists(self.test_db))
 
