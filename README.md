@@ -27,6 +27,18 @@ This ecosystem is composed of four main pillars:
 
 ---
 
+## 🌐 Symbiotic Architecture
+
+IBRA Services operates on a circular, ethical, and radically technological model:
+1. **BioFlux**: Mimetic sensors translate physical machine "vital signs" into **HDF5** data.
+2. **Heptafusion**: Advanced **Gemma 4** MoE architecture learns from this data.
+3. **Ibra-OS**: Autonomous agents (The Swarm) apply this intelligence to real-world maintenance.
+4. **Social Model**: AI-generated value enables free services for those in need.
+
+📖 [Read the Full Manifesto](docs/MANIFESTO.md)
+
+---
+
 ## 📂 Project Structure
 
 - `projects/`: Contains the source code for each individual system.
