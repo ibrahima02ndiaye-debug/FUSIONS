@@ -39,6 +39,13 @@ Ibra-OS is no longer just a garage with AI; it is a **Technological Fusion Labor
 ### 2. The Digital Twin Protocol
 - Every vehicle creates or updates a Digital Twin via `DigitalTwinAgent` for predictive intervention.
 
+### 4. BioFlux & HDF5 Integration
+- Use the **BioFlux** protocol to capture acoustic and thermal signals.
+- All sensor data must be standardized in **HDF5** format for training Heptafusion MoE models.
+
+### 5. Contributive Social Model
+- Implementation of the "Ibra Services Social Model": AI efficiency gains are redistributed to provide free mechanical services for the underprivileged.
+
 ## 🛠️ Operational Guidelines
 
 - **Mode CLAW**: High-stakes reasoning mode.
