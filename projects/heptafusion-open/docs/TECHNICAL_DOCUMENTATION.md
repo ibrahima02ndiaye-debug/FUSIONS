@@ -29,6 +29,10 @@ Located in `ibra_os/database/`:
     - `appointments`: Scheduling history.
     - `diagnostic_history`: Stores AI-scored diagnosis logs and confidence levels.
 
+### 2.4 BioFlux Data Protocol
+- **BioFlux**: A sensory capture layer using mimetic sensors.
+- **HDF5 Storage**: Raw acoustic and thermal data is stored in hierarchical HDF5 format to support large-scale MoE training for the Heptafusion engine.
+
 ## 3. UI/UX: The Cyber HUD
 Located in `ibra_os/dashboard/`:
 - **`HUD.html`**: A mobile-responsive dashboard using CSS variables for a "Cyber" aesthetic.

@@ -20,6 +20,13 @@ Ibra-OS is not just about automation; it's about **Autonomous Mechanics**. We ai
 - Critical diagnostics should require consensus from at least two agents (e.g., Vision + Physics).
 - Future versions will implement a blockchain-based ledger for maintenance records, ensuring tamper-proof vehicle histories.
 
+### 4. BioFlux & HDF5 Integration
+- Use the **BioFlux** protocol to capture acoustic and thermal signals.
+- All sensor data must be standardized in **HDF5** format for training Heptafusion MoE models.
+
+### 5. Contributive Social Model
+- Implementation of the "Ibra Services Social Model": AI efficiency gains are redistributed to provide free mechanical services for the underprivileged.
+
 ## 🛠️ Operational Guidelines
 
 - **Mode CLAW**: High-stakes reasoning mode. Only enable for complex diagnostics.
