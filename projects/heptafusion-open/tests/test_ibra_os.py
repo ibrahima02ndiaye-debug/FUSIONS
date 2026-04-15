@@ -7,7 +7,7 @@ import sqlite3
 class TestIbraOS(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.test_db = "tests/test_garage_memory.db"
+        cls.test_db = "/tmp/test_garage_memory.db"
         init_db(cls.test_db)
 
     @classmethod
@@ -40,6 +40,7 @@ class TestIbraOS(unittest.TestCase):
         res = secretary.process(query)
         self.assertEqual(res['mode'], "CLAW")
         self.assertTrue(len(res['intents']) >= 2)
+        self.assertIn('execution_plan', res)
         targets = [i['target'] for i in res['intents']]
         self.assertIn("Vision", targets)
         self.assertIn("Memory", targets)

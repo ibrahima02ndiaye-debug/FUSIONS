@@ -3,6 +3,9 @@ import os
 
 def run_verification(page):
     # HUD.html is a static file, we can access it via file:// protocol
+    # Fix path to be relative to the repository root if needed, or use full path
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(base_dir, "ibra_os/dashboard/HUD.html")
     # The file is in ibra_os/dashboard/HUD.html relative to projects/heptafusion-open
     current_dir = os.path.dirname(os.path.abspath(__file__))
     filepath = os.path.join(current_dir, "ibra_os/dashboard/HUD.html")
