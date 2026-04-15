@@ -138,6 +138,7 @@
             <button id="btn-mic">🎤 VOCAL</button>
             <button id="btn-manip">🦾 ROBOT</button>
             <button id="btn-gps">🛰️ GPS</button>
+            <button id="btn-merge">🧠 MERGE</button>
             <button id="btn-diag">⚙️ DIAG</button>
         </div>
         <div class="lang-switch">
@@ -182,12 +183,19 @@
         </div>
 
         <div class="panel">
-            <h2 id="h-stock">Inventory Matrix</h2>
-            <ul style="list-style: none; padding: 0;">
-                <li>> Filters: [25]</li>
-                <li>> Brakes:  [12] SETS</li>
-                <li>> Tires:   [08] UNIT</li>
-            </ul>
+            <h2 id="h-innovation">Brain Fusion & Simulation</h2>
+            <div id="innovation-status">
+                <div style="font-size: 0.8em; margin-bottom: 10px;">
+                    [NEURAL_MERGE] > <span id="merge-perc">0%</span> [SLERP_READY]<br>
+                    <div style="width: 100%; height: 5px; background: #222; margin-top: 3px;">
+                        <div id="merge-bar" style="width: 0%; height: 100%; background: var(--neon-purple);"></div>
+                    </div>
+                </div>
+                <div style="font-size: 0.8em;">
+                    [DIGITAL_TWIN] > <span class="status-online pulse">SYNC_ACTIVE</span><br>
+                    [PREDICTIVE]   > <span style="color: yellow;">SCAN_IN_PROGRESS</span>
+                </div>
+            </div>
         </div>
 
         <div class="panel" style="grid-column: 1 / -1;">
@@ -283,6 +291,22 @@
             setTimeout(() => {
                 logToTerminal("FLEET", "Localization data updated. 3 active units tracked.");
             }, 1000);
+        });
+
+        document.getElementById('btn-merge').addEventListener('click', () => {
+            logToTerminal("EXPERTMERGER", "Synthesizing specialized model weights... Applying SLERP iterative fusion.");
+            let p = 0;
+            const mBar = document.getElementById('merge-bar');
+            const mPerc = document.getElementById('merge-perc');
+            const interval = setInterval(() => {
+                p += 5;
+                mBar.style.width = p + '%';
+                mPerc.innerText = p + '%';
+                if (p >= 100) {
+                    clearInterval(interval);
+                    logToTerminal("EXPERTMERGER", "Fusion complete. New 'Expert Brain' loaded into memory.");
+                }
+            }, 100);
         });
 
         document.getElementById('btn-diag').addEventListener('click', () => {
