@@ -264,12 +264,36 @@
             }
         }, 10000);
 
-        function logToTerminal(sender, message) {
+        function logToTerminal(sender, message, time = null) {
             const term = document.getElementById('terminal');
-            const time = new Date().toLocaleTimeString();
-            term.innerHTML += `[${time}] [${sender}] > ${message}<br>`;
+            const displayTime = time || new Date().toLocaleTimeString();
+
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${displayTime}] [${sender}] > ${message}`;
+            term.appendChild(logEntry);
+
             term.scrollTop = term.scrollHeight;
         }
+
+        // Live Log Fetching
+        let lastLogIndex = 0;
+        async function fetchLogs() {
+            try {
+                const response = await fetch('logs.json');
+                if (response.ok) {
+                    const logs = await response.json();
+                    if (logs.length > lastLogIndex) {
+                        for (let i = lastLogIndex; i < logs.length; i++) {
+                            logToTerminal(logs[i].sender, logs[i].message, logs[i].time);
+                        }
+                        lastLogIndex = logs.length;
+                    }
+                }
+            } catch (e) {
+                // Silently fail if file not found yet
+            }
+        }
+        setInterval(fetchLogs, 2000);
 
         document.getElementById('btn-camera').addEventListener('click', () => {
             logToTerminal("VISION", "Initializing optical sensors... Scanning environment.");

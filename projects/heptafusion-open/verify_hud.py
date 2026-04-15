@@ -3,7 +3,9 @@ import os
 
 def run_verification(page):
     # HUD.html is a static file, we can access it via file:// protocol
-    filepath = os.path.abspath("ibra_os/dashboard/HUD.html")
+    # Fix path to be relative to the repository root if needed, or use full path
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(base_dir, "ibra_os/dashboard/HUD.html")
     page.goto(f"file://{filepath}")
     page.wait_for_timeout(1000)
 

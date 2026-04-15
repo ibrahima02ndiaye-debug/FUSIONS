@@ -1,0 +1,72 @@
+[
+  {
+    "time": "22:51:57",
+    "sender": "SECRETARY",
+    "message": "Analyse de la requ\u00eate: Regarde l'historique de mes freins."
+  },
+  {
+    "time": "22:51:57",
+    "sender": "SECRETARY",
+    "message": "[THOUGHT] Analyzing user intent and context via autonomous reasoning chain..."
+  },
+  {
+    "time": "22:51:57",
+    "sender": "SECRETARY",
+    "message": "[THOUGHT] Potential match identified for specialized domain: vision"
+  },
+  {
+    "time": "22:51:57",
+    "sender": "SECRETARY",
+    "message": "[THOUGHT] Potential match identified for specialized domain: history"
+  },
+  {
+    "time": "22:51:57",
+    "sender": "SECRETARY",
+    "message": "[CLAW] OpenClaw autonomous analysis: 2 action vectors identified. Orchestrating sequential multi-agent delegation."
+  },
+  {
+    "time": "22:52:19",
+    "sender": "SECRETARY",
+    "message": "Analyse de la requ\u00eate: Le robot doit r\u00e9parer l'aile gauche."
+  },
+  {
+    "time": "22:52:19",
+    "sender": "SECRETARY",
+    "message": "Analyse de la requ\u00eate: Peux-tu regarder cette image de frein?"
+  },
+  {
+    "time": "22:52:19",
+    "sender": "SECRETARY",
+    "message": "Analyse de la requ\u00eate: Quels sont les rendez-vous de demain?"
+  },
+  {
+    "time": "22:52:19",
+    "sender": "SECRETARY",
+    "message": "Analyse de la requ\u00eate: Regarde mes freins et prends un rdv."
+  },
+  {
+    "time": "22:52:19",
+    "sender": "SECRETARY",
+    "message": "[THOUGHT] Analyzing user intent and context via autonomous reasoning chain..."
+  },
+  {
+    "time": "22:52:19",
+    "sender": "SECRETARY",
+    "message": "[THOUGHT] Potential match identified for specialized domain: vision"
+  },
+  {
+    "time": "22:52:19",
+    "sender": "SECRETARY",
+    "message": "[THOUGHT] Potential match identified for specialized domain: memory"
+  },
+  {
+    "time": "22:52:19",
+    "sender": "SECRETARY",
+    "message": "[CLAW] OpenClaw autonomous analysis: 2 action vectors identified. Orchestrating sequential multi-agent delegation."
+  },
+  {
+    "time": "22:52:19",
+    "sender": "SECRETARY",
+    "message": "Analyse de la requ\u00eate: Regarde mes freins et prends un rdv."
+  }
+]
